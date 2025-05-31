@@ -141,76 +141,91 @@ function RankingBoard({ data, onUpdateData, onBackToHome }) {
     setIsBackModalVisible(false);
   };
 
+  // Função para exportar e voltar
+  const handleExportAndBack = () => {
+    exportToJSON();
+    setIsBackModalVisible(false);
+    onBackToHome();
+  };
+
   return (
     <div className="ranking-board">
       <ToastComponent />
 
       {/* Modal para confirmação de voltar */}
       <Modal
-        title={
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#ff4d4f",
-            }}
-          >
-            <AlertTriangle size={20} />
-            Atenção - Dados serão perdidos
-          </div>
-        }
+        title="⚠️ Confirmar Saída"
         open={isBackModalVisible}
         onCancel={handleCancelBack}
-        footer={[
-          <Button key="cancel" onClick={handleCancelBack}>
-            Cancelar
-          </Button>,
-          <Button
-            key="export"
-            type="default"
-            onClick={() => {
-              exportToJSON();
-              handleConfirmBack();
-            }}
-          >
-            Exportar e Sair
-          </Button>,
-          <Button
-            key="confirm"
-            type="primary"
-            danger
-            onClick={handleConfirmBack}
-          >
-            Sair sem Exportar
-          </Button>,
-        ]}
+        footer={null}
         centered
         width={500}
       >
-        <div style={{ padding: "16px 0" }}>
-          <p style={{ marginBottom: "16px", fontSize: "16px" }}>
-            Ao voltar para a página inicial, todos os dados do ranking atual
-            serão perdidos.
+        <div style={{ padding: "20px 0" }}>
+          <p style={{ fontSize: "16px", marginBottom: "16px" }}>
+            Tem certeza que deseja voltar ao menu principal?
           </p>
           <div
             style={{
-              background: "#fff7e6",
-              border: "1px solid #ffd591",
+              backgroundColor: "#fff7e6",
+              border: "1px solid #ffd666",
               borderRadius: "6px",
               padding: "12px",
-              marginBottom: "16px",
+              marginBottom: "24px",
             }}
           >
-            <p style={{ margin: 0, color: "#d46b08", fontWeight: "500" }}>
-              💡 <strong>Lembrete:</strong> Exporte seus dados antes de sair
-              para não perdê-los!
+            <p
+              style={{
+                margin: 0,
+                fontSize: "14px",
+                color: "#d48806",
+                fontWeight: "500",
+              }}
+            >
+              💡 <strong>Lembrete:</strong> Se você não exportar os dados, todas
+              as informações do ranking serão perdidas permanentemente.
             </p>
           </div>
-          <p style={{ margin: 0, color: "#666" }}>
-            Você pode exportar os dados clicando em "Exportar e Sair" ou usar o
-            botão "Exportar JSON" no cabeçalho.
-          </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            <Button
+              type="primary"
+              size="large"
+              block
+              onClick={handleExportAndBack}
+              style={{
+                height: "auto",
+                padding: "12px 24px",
+                backgroundColor: "#52c41a",
+                borderColor: "#52c41a",
+              }}
+            >
+              <Download size={18} style={{ marginRight: "8px" }} />
+              Exportar Dados e Voltar
+            </Button>
+            <Button
+              danger
+              size="large"
+              block
+              onClick={handleConfirmBack}
+              style={{ height: "auto", padding: "12px 24px" }}
+            >
+              Voltar sem Exportar
+            </Button>
+            <Button
+              size="large"
+              block
+              onClick={handleCancelBack}
+              style={{ height: "auto", padding: "12px 24px" }}
+            >
+              Cancelar
+            </Button>
+          </div>
         </div>
       </Modal>
 

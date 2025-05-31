@@ -22,6 +22,7 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
   const [newCompetitorName, setNewCompetitorName] = useState("");
   const [isMatchModalVisible, setIsMatchModalVisible] = useState(false);
   const [pendingMatch, setPendingMatch] = useState(null);
+  const [isBackModalVisible, setIsBackModalVisible] = useState(false);
   const { showToast, ToastComponent } = useToast();
 
   // Calcular ranking baseado em vitórias/derrotas
@@ -186,9 +187,103 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
 
   const ranking = calculateRanking();
 
+  // Função para lidar com o clique no botão voltar
+  const handleBackClick = () => {
+    setIsBackModalVisible(true);
+  };
+
+  // Função para confirmar volta sem exportar
+  const handleConfirmBack = () => {
+    setIsBackModalVisible(false);
+    onBackToHome();
+  };
+
+  // Função para exportar e voltar
+  const handleExportAndBack = () => {
+    exportData();
+    setIsBackModalVisible(false);
+    onBackToHome();
+  };
+
+  // Função para cancelar volta
+  const handleCancelBack = () => {
+    setIsBackModalVisible(false);
+  };
+
   return (
     <div className="classification-mode">
       <ToastComponent />
+
+      {/* Modal para confirmação de volta */}
+      <Modal
+        title="⚠️ Confirmar Saída"
+        open={isBackModalVisible}
+        onCancel={handleCancelBack}
+        footer={null}
+        centered
+        width={500}
+      >
+        <div style={{ padding: "20px 0" }}>
+          <p style={{ fontSize: "16px", marginBottom: "16px" }}>
+            Tem certeza que deseja voltar ao menu principal?
+          </p>
+          <div
+            style={{
+              backgroundColor: "#fff7e6",
+              border: "1px solid #ffd666",
+              borderRadius: "6px",
+              padding: "12px",
+              marginBottom: "24px",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: "14px",
+                color: "#d48806",
+                fontWeight: "500",
+              }}
+            >
+              💡 <strong>Lembrete:</strong> Se você não exportar os dados, todas
+              as informações dos confrontos e rankings serão perdidas permanentemente.
+            </p>
+          </div>
+          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+            <Button
+              type="primary"
+              size="large"
+              block
+              onClick={handleExportAndBack}
+              style={{
+                height: "auto",
+                padding: "12px 24px",
+                backgroundColor: "#52c41a",
+                borderColor: "#52c41a",
+              }}
+            >
+              <Download size={18} style={{ marginRight: "8px" }} />
+              Exportar Dados e Voltar
+            </Button>
+            <Button
+              danger
+              size="large"
+              block
+              onClick={handleConfirmBack}
+              style={{ height: "auto", padding: "12px 24px" }}
+            >
+              Voltar sem Exportar
+            </Button>
+            <Button
+              size="large"
+              block
+              onClick={handleCancelBack}
+              style={{ height: "auto", padding: "12px 24px" }}
+            >
+              Cancelar
+            </Button>
+          </Space>
+        </div>
+      </Modal>
 
       {/* Modal para resultado do confronto */}
       <Modal
@@ -243,7 +338,7 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
 
       {/* Header */}
       <div className="header">
-        <button onClick={onBackToHome} className="back-button">
+        <button onClick={handleBackClick} className="back-button">
           <ArrowLeft size={20} />
           Voltar
         </button>
