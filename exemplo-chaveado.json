@@ -1,0 +1,188 @@
+{
+  "title": "Torneio de Linguagens de Programação - Chaveado",
+  "description": "Sistema de eliminação direta entre linguagens de programação",
+  "competitors": [
+    {
+      "id": "js",
+      "name": "JavaScript",
+      "eliminated": false
+    },
+    {
+      "id": "py",
+      "name": "Python",
+      "eliminated": false
+    },
+    {
+      "id": "ts",
+      "name": "TypeScript",
+      "eliminated": false
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "eliminated": false
+    },
+    {
+      "id": "cpp",
+      "name": "C++",
+      "eliminated": false
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "eliminated": false
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "eliminated": false
+    },
+    {
+      "id": "cs",
+      "name": "C#",
+      "eliminated": false
+    }
+  ],
+  "bracket": [
+    [
+      {
+        "id": "match1",
+        "round": 0,
+        "competitor1": {
+          "id": "js",
+          "name": "JavaScript",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "py",
+          "name": "Python",
+          "eliminated": false
+        },
+        "winner": {
+          "id": "py",
+          "name": "Python",
+          "eliminated": false
+        },
+        "completed": true
+      },
+      {
+        "id": "match2",
+        "round": 0,
+        "competitor1": {
+          "id": "ts",
+          "name": "TypeScript",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "java",
+          "name": "Java",
+          "eliminated": false
+        },
+        "winner": {
+          "id": "ts",
+          "name": "TypeScript",
+          "eliminated": false
+        },
+        "completed": true
+      },
+      {
+        "id": "match3",
+        "round": 0,
+        "competitor1": {
+          "id": "cpp",
+          "name": "C++",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "rust",
+          "name": "Rust",
+          "eliminated": false
+        },
+        "winner": {
+          "id": "rust",
+          "name": "Rust",
+          "eliminated": false
+        },
+        "completed": true
+      },
+      {
+        "id": "match4",
+        "round": 0,
+        "competitor1": {
+          "id": "go",
+          "name": "Go",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "cs",
+          "name": "C#",
+          "eliminated": false
+        },
+        "winner": {
+          "id": "go",
+          "name": "Go",
+          "eliminated": false
+        },
+        "completed": true
+      }
+    ],
+    [
+      {
+        "id": "match5",
+        "round": 1,
+        "competitor1": {
+          "id": "py",
+          "name": "Python",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "ts",
+          "name": "TypeScript",
+          "eliminated": false
+        },
+        "winner": {
+          "id": "py",
+          "name": "Python",
+          "eliminated": false
+        },
+        "completed": true,
+        "dependsOn": ["match1", "match2"]
+      },
+      {
+        "id": "match6",
+        "round": 1,
+        "competitor1": {
+          "id": "rust",
+          "name": "Rust",
+          "eliminated": false
+        },
+        "competitor2": {
+          "id": "go",
+          "name": "Go",
+          "eliminated": false
+        },
+        "winner": null,
+        "completed": false,
+        "dependsOn": ["match3", "match4"]
+      }
+    ],
+    [
+      {
+        "id": "match7",
+        "round": 2,
+        "competitor1": {
+          "id": "py",
+          "name": "Python",
+          "eliminated": false
+        },
+        "competitor2": null,
+        "winner": null,
+        "completed": false,
+        "dependsOn": ["match5", "match6"]
+      }
+    ]
+  ],
+  "currentRound": 1,
+  "tournamentStarted": true,
+  "createdAt": "2025-05-31T10:00:00.000Z"
+}

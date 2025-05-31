@@ -4,7 +4,7 @@
 
 ### 🏠 Tela Inicial
 - ✅ **Design Moderno**: Gradientes, animações, ícones decorativos
-- ✅ **Seleção de Modo**: Manual vs Classificatório
+- ✅ **Seleção de Modo**: Manual vs Classificatório vs Chaveado
 - ✅ **Importação JSON**: Carregamento de rankings existentes
 - ✅ **Animações**: Transições suaves com framer-motion
 
@@ -25,14 +25,27 @@
 - ✅ **Gestão de Competidores**: Adicionar/remover participantes
 - ✅ **Estatísticas Detalhadas**: Vitórias, derrotas, taxa de vitória
 
+### 🎯 Modo Chaveado (Torneio)
+- ✅ **Sistema de Eliminação**: Chaveamento automático
+- ✅ **Geração de Bracket**: Criação automática das rodadas
+- ✅ **Visualização de Chaves**: Interface clara do torneio
+- ✅ **Gestão de Partidas**: Clique para definir vencedores
+- ✅ **Avanço Automático**: Vencedores passam para próxima fase
+- ✅ **Identificação de Campeão**: Resultado final destacado
+- ✅ **Suporte a Bye**: Competidores ímpares avançam automaticamente
+- ✅ **Reset de Torneio**: Possibilidade de recomeçar
+
 ## 🗂️ Arquivos de Exemplo
 - ✅ `exemplo-ranking.json` - Ranking manual
 - ✅ `exemplo-classificatorio.json` - Torneio completo  
+- ✅ `exemplo-chaveado.json` - Torneio chaveado
 - ✅ `teste-classificatorio.json` - Teste simples
 
 ## 📚 Documentação
 - ✅ `README.md` - Visão geral e funcionalidades
 - ✅ `GUIA-USO.md` - Manual detalhado de uso
+- ✅ `GUIA-CHAVEADO.md` - Guia específico do modo torneio
+- ✅ `STATUS-APLICACAO.md` - Status técnico atual
 
 ## 🔧 Status Técnico
 
@@ -40,6 +53,7 @@
 - `App.jsx` - Roteamento principal ✅
 - `RankingBoard.jsx` - Modo manual ✅  
 - `ClassificationMode.jsx` - Modo classificatório ✅
+- `BracketMode.jsx` - Modo chaveado ✅
 - `SortableItem.jsx` - Item drag-and-drop ✅
 - `Toast.jsx` - Sistema de notificações ✅
 - `useToast.jsx` - Hook personalizado ✅

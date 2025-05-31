@@ -1,18 +1,19 @@
 import { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import {
-  Upload,
-  Plus,
+  Upload,  Plus,
   Trophy,
   Star,
   Medal,
   Award,
   Zap,
   Swords,
+  Target,
   Trash2,
 } from "lucide-react";
 import RankingBoard from "./components/RankingBoard";
 import ClassificationMode from "./components/ClassificationMode";
+import BracketMode from "./components/BracketMode";
 import { useRankingStorage } from "./hooks/useLocalStorage";
 import "./App.css";
 
@@ -32,11 +33,14 @@ function App() {
     if (file && file.type === "application/json") {
       const reader = new FileReader();
       reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-
-          // Detectar automaticamente o tipo de ranking baseado na estrutura
-          if (data.competitors && Array.isArray(data.competitors)) {
+        try {          const data = JSON.parse(e.target.result);          // Detectar automaticamente o tipo de ranking baseado na estrutura
+          // Verificar primeiro bracket (mais específico) porque pode ter competitors + bracket
+          if (data.bracket && Array.isArray(data.bracket)) {
+            // É um ranking chaveado
+            setRankingData(data);
+            setCurrentView("bracket");
+            setRankingMode("bracket");
+          } else if (data.competitors && Array.isArray(data.competitors)) {
             // É um ranking classificatório
             setRankingData(data);
             setCurrentView("classification");
@@ -48,7 +52,7 @@ function App() {
             setRankingMode("manual");
           } else {
             alert(
-              'Formato de JSON não reconhecido. Verifique se o arquivo contém "candidates" ou "competitors".'
+              'Formato de JSON não reconhecido. Verifique se o arquivo contém "candidates", "competitors" ou "bracket".'
             );
             return;
           }
@@ -63,7 +67,6 @@ function App() {
       alert("Por favor, selecione um arquivo JSON válido.");
     }
   };
-
   const createNewRanking = (mode) => {
     if (mode === "manual") {
       const newRanking = {
@@ -84,6 +87,18 @@ function App() {
       };
       setRankingData(newClassification);
       setCurrentView("classification");
+    } else if (mode === "bracket") {
+      const newBracket = {
+        title: "Novo Torneio Chaveado",
+        description: "Sistema de eliminação direta",
+        competitors: [],
+        bracket: [],
+        currentRound: 0,
+        tournamentStarted: false,
+        createdAt: new Date().toISOString(),
+      };
+      setRankingData(newBracket);
+      setCurrentView("bracket");
     }
     setRankingMode(mode);
   };
@@ -187,9 +202,7 @@ function App() {
                       <h4>Ranking Manual</h4>
                       <p>Arraste e solte candidatos para reordenar</p>
                     </div>
-                  </button>
-
-                  <button
+                  </button>                  <button
                     onClick={() => createNewRanking("classification")}
                     className="mode-button classification"
                   >
@@ -199,6 +212,19 @@ function App() {
                     <div className="mode-info">
                       <h4>Ranking Classificatório</h4>
                       <p>Sistema de confrontos com histórico</p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => createNewRanking("bracket")}
+                    className="mode-button bracket"
+                  >
+                    <div className="mode-icon">
+                      <Target size={32} />
+                    </div>
+                    <div className="mode-info">
+                      <h4>Torneio Chaveado</h4>
+                      <p>Sistema de eliminação direta</p>
                     </div>
                   </button>
                 </div>
@@ -229,8 +255,7 @@ function App() {
               onUpdateData={setRankingData}
               onBackToHome={handleBackToHome}
             />
-          </motion.div>
-        ) : currentView === "classification" ? (
+          </motion.div>        ) : currentView === "classification" ? (
           <motion.div
             key="classification"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -239,6 +264,20 @@ function App() {
             transition={{ duration: 0.3 }}
           >
             <ClassificationMode
+              data={rankingData}
+              onUpdateData={setRankingData}
+              onBackToHome={handleBackToHome}
+            />
+          </motion.div>
+        ) : currentView === "bracket" ? (
+          <motion.div
+            key="bracket"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            <BracketMode
               data={rankingData}
               onUpdateData={setRankingData}
               onBackToHome={handleBackToHome}

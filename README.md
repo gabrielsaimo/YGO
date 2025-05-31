@@ -1,20 +1,26 @@
 # Ranking Pro 🏆
 
-Uma aplicação moderna e interativa para criar e gerenciar rankings com funcionalidade de arrastar e soltar.
+Uma aplicação moderna e interativa para criar e gerenciar rankings com três modos distintos: Manual, Classificatório e Chaveado.
 
 ## ✨ Características
 
+- **Três Modos de Ranking**:
+  - **Manual**: Sistema de arrastar e soltar para reordenação livre
+  - **Classificatório**: Sistema de confrontos diretos com histórico
+  - **Chaveado**: Sistema de eliminação direta estilo torneio
 - **Interface Moderna**: Design limpo e responsivo com gradientes e animações suaves
-- **Drag & Drop**: Reordene candidatos facilmente arrastando e soltando
+- **Drag & Drop**: Reordene candidatos facilmente (modo manual)
 - **Importação/Exportação JSON**: Importe rankings existentes ou exporte para backup
 - **Edição Inline**: Edite nomes e descrições diretamente na interface
 - **Sistema de Posições**: Ícones especiais para os 3 primeiros lugares (troféu, medalha, prêmio)
 - **Notificações Toast**: Feedback visual para todas as ações
 - **Responsivo**: Funciona perfeitamente em desktop e mobile
+- **Persistência Local**: Dados salvos automaticamente no navegador
 
 ## 🚀 Como Usar
 
-1. **Tela Inicial**: Escolha entre importar um JSON existente ou criar um novo ranking
+### Modo Manual
+1. **Tela Inicial**: Clique em "Ranking Manual"
 2. **Gestão do Ranking**: 
    - Arraste candidatos para reordená-los
    - Clique no ícone de edição para modificar informações
@@ -22,8 +28,23 @@ Uma aplicação moderna e interativa para criar e gerenciar rankings com funcion
    - Use o botão de lixeira para remover candidatos
 3. **Exportação**: Clique em "Exportar JSON" para salvar seu ranking
 
-## 📁 Formato do JSON
+### Modo Classificatório
+1. **Tela Inicial**: Clique em "Ranking Classificatório"
+2. **Adicionar Competidores**: Use o botão + para adicionar participantes
+3. **Confrontos**: Selecione dois competidores e clique em "Adicionar Confronto"
+4. **Resultados**: Confirme os resultados de cada partida
+5. **Ranking**: Visualize a tabela automática baseada em vitórias e derrotas
 
+### Modo Chaveado (Torneio)
+1. **Tela Inicial**: Clique em "Torneio Chaveado"
+2. **Adicionar Competidores**: Adicione pelo menos 2 participantes
+3. **Gerar Chaveamento**: Clique em "Gerar Chaveamento" para criar o bracket
+4. **Partidas**: Clique nas partidas para definir os vencedores
+5. **Eliminação**: Acompanhe o progresso até a final e o campeão
+
+## 📁 Formatos do JSON
+
+### Ranking Manual
 ```json
 {
   "title": "Nome do Ranking",
@@ -36,7 +57,64 @@ Uma aplicação moderna e interativa para criar e gerenciar rankings com funcion
       "score": 0
     }
   ],
-  "createdAt": "2024-05-30T10:00:00.000Z"
+  "createdAt": "2025-05-31T10:00:00.000Z"
+}
+```
+
+### Ranking Classificatório
+```json
+{
+  "title": "Torneio Classificatório",
+  "description": "Sistema de confrontos diretos",
+  "competitors": [
+    {
+      "id": "1",
+      "name": "Competidor",
+      "wins": 2,
+      "losses": 1,
+      "matches": 3
+    }
+  ],
+  "matches": [
+    {
+      "id": "match1",
+      "competitor1": "1",
+      "competitor2": "2",
+      "winner": "1",
+      "date": "2025-05-31T10:00:00.000Z"
+    }
+  ],
+  "createdAt": "2025-05-31T10:00:00.000Z"
+}
+```
+
+### Torneio Chaveado
+```json
+{
+  "title": "Torneio Chaveado",
+  "description": "Sistema de eliminação direta",
+  "competitors": [
+    {
+      "id": "1",
+      "name": "Competidor",
+      "eliminated": false
+    }
+  ],
+  "bracket": [
+    [
+      {
+        "id": "match1",
+        "round": 0,
+        "competitor1": {...},
+        "competitor2": {...},
+        "winner": null,
+        "completed": false
+      }
+    ]
+  ],
+  "currentRound": 0,
+  "tournamentStarted": true,
+  "createdAt": "2025-05-31T10:00:00.000Z"
 }
 ```
 
