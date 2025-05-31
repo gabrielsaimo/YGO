@@ -25,6 +25,11 @@ body {
   padding: 20px;
 }
 
+.text {
+  color: #5c5c5c;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
 /* Tela inicial */
 .home-container {
   max-width: 600px;

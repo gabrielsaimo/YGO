@@ -1,79 +1,74 @@
-import { useState, useRef } from 'react'
-import {  AnimatePresence } from 'framer-motion'
-import { Upload, Plus, Trophy, Star, Medal, Award, Zap, Swords } from 'lucide-react'
-import RankingBoard from './components/RankingBoard'
-import ClassificationMode from './components/ClassificationMode'
-import './App.css'
+import { useState, useRef } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Upload, Trophy, Star, Medal, Award, Zap, Swords } from "lucide-react";
+import RankingBoard from "./components/RankingBoard";
+import ClassificationMode from "./components/ClassificationMode";
+import "./App.css";
 
 function App() {
-  const [currentView, setCurrentView] = useState('home') // 'home', 'ranking', 'classification'
-  const [rankingData, setRankingData] = useState(null)
-  const [rankingMode, setRankingMode] = useState(null) // 'manual', 'classification'
-  const fileInputRef = useRef(null)
+  const [currentView, setCurrentView] = useState("home"); // 'home', 'ranking', 'classification'
+  const [rankingData, setRankingData] = useState(null);
+  const [rankingMode, setRankingMode] = useState(null); // 'manual', 'classification'
+  const fileInputRef = useRef(null);
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0]
-    if (file && file.type === 'application/json') {
-      const reader = new FileReader()
+    const file = event.target.files[0];
+    if (file && file.type === "application/json") {
+      const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const data = JSON.parse(e.target.result)
-          setRankingData(data)
-          setCurrentView('ranking')
-          setRankingMode('manual')
+          const data = JSON.parse(e.target.result);
+          setRankingData(data);
+          setCurrentView("ranking");
+          setRankingMode("manual");
         } catch {
-          alert('Erro ao carregar o arquivo JSON. Verifique se o formato está correto.')
+          alert(
+            "Erro ao carregar o arquivo JSON. Verifique se o formato está correto."
+          );
         }
-      }
-      reader.readAsText(file)
+      };
+      reader.readAsText(file);
     } else {
-      alert('Por favor, selecione um arquivo JSON válido.')
+      alert("Por favor, selecione um arquivo JSON válido.");
     }
-  }
+  };
 
   const createNewRanking = (mode) => {
-    if (mode === 'manual') {
+    if (mode === "manual") {
       const newRanking = {
-        title: 'Novo Ranking',
-        description: 'Descrição do ranking',
-        candidates: [
-          { id: '1', name: 'Candidato 1', description: 'Descrição do candidato 1', score: 0 },
-          { id: '2', name: 'Candidato 2', description: 'Descrição do candidato 2', score: 0 },
-          { id: '3', name: 'Candidato 3', description: 'Descrição do candidato 3', score: 0 },
-        ],
-        createdAt: new Date().toISOString()
-      }
-      setRankingData(newRanking)
-      setCurrentView('ranking')
-    } else if (mode === 'classification') {
+        title: "Novo Ranking",
+        description: "Descrição do ranking",
+        candidates: [],
+        createdAt: new Date().toISOString(),
+      };
+      console.log("Creating manual ranking:", newRanking);
+      setRankingData(newRanking);
+      setCurrentView("ranking");
+    } else if (mode === "classification") {
       const newClassification = {
-        title: 'Novo Ranking Classificatório',
-        description: 'Sistema de confrontos diretos',
-        competitors: [
-          { id: '1', name: 'Competidor 1', wins: 0, losses: 0, matches: 0 },
-          { id: '2', name: 'Competidor 2', wins: 0, losses: 0, matches: 0 },
-          { id: '3', name: 'Competidor 3', wins: 0, losses: 0, matches: 0 },
-          { id: '4', name: 'Competidor 4', wins: 0, losses: 0, matches: 0 },
-        ],
+        title: "Novo Ranking Classificatório",
+        description: "Sistema de confrontos diretos",
+        competitors: [],
         matches: [],
-        createdAt: new Date().toISOString()
-      }
-      setRankingData(newClassification)
-      setCurrentView('classification')
+        createdAt: new Date().toISOString(),
+      };
+      console.log("Creating classification ranking:", newClassification);
+      setRankingData(newClassification);
+      setCurrentView("classification");
     }
-    setRankingMode(mode)
-  }
+    setRankingMode(mode);
+  };
 
   const handleBackToHome = () => {
-    setCurrentView('home')
-    setRankingData(null)
-    setRankingMode(null)
-  }
+    setCurrentView("home");
+    setRankingData(null);
+    setRankingMode(null);
+  };
 
   return (
     <div className="app">
       <AnimatePresence mode="wait">
-        {currentView === 'home' ? (
+        {currentView === "home" ? (
           <motion.div
             key="home"
             initial={{ opacity: 0, y: 20 }}
@@ -96,7 +91,7 @@ function App() {
                   <Award className="decoration award-1" size={22} />
                 </div>
               </motion.div>
-              
+
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -105,7 +100,7 @@ function App() {
               >
                 Ranking Pro
               </motion.h1>
-              
+
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -139,7 +134,7 @@ function App() {
                 <h3 className="mode-title">Escolha o tipo de ranking:</h3>
                 <div className="mode-buttons">
                   <button
-                    onClick={() => createNewRanking('manual')}
+                    onClick={() => createNewRanking("manual")}
                     className="mode-button manual"
                   >
                     <div className="mode-icon">
@@ -150,9 +145,9 @@ function App() {
                       <p>Arraste e solte candidatos para reordenar</p>
                     </div>
                   </button>
-                  
+
                   <button
-                    onClick={() => createNewRanking('classification')}
+                    onClick={() => createNewRanking("classification")}
                     className="mode-button classification"
                   >
                     <div className="mode-icon">
@@ -171,11 +166,11 @@ function App() {
                 type="file"
                 accept=".json"
                 onChange={handleFileUpload}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
             </div>
           </motion.div>
-        ) : currentView === 'ranking' ? (
+        ) : currentView === "ranking" ? (
           <motion.div
             key="ranking"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -189,7 +184,7 @@ function App() {
               onBackToHome={handleBackToHome}
             />
           </motion.div>
-        ) : currentView === 'classification' ? (
+        ) : currentView === "classification" ? (
           <motion.div
             key="classification"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -206,7 +201,7 @@ function App() {
         ) : null}
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
