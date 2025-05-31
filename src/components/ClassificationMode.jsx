@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion' // eslint-disable-line no-unused-vars
 import { ArrowLeft, Download, Plus, Trash2, Trophy, Medal, Award, Swords, History, BarChart3 } from 'lucide-react'
+import { Modal, Button, Space } from 'antd'
 import { useToast } from '../hooks/useToast.jsx'
 import { downloadJSON, generateId } from '../utils'
 
@@ -9,6 +10,8 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
   const [selectedCompetitors, setSelectedCompetitors] = useState([])
   const [isAddingCompetitor, setIsAddingCompetitor] = useState(false)
   const [newCompetitorName, setNewCompetitorName] = useState('')
+  const [isMatchModalVisible, setIsMatchModalVisible] = useState(false)
+  const [pendingMatch, setPendingMatch] = useState(null)
   const { showToast, ToastComponent } = useToast()
 
   // Calcular ranking baseado em vitórias/derrotas
@@ -38,13 +41,14 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
     const competitor1 = data.competitors.find(c => c.id === competitor1Id)
     const competitor2 = data.competitors.find(c => c.id === competitor2Id)
 
-    // Interface para escolher o vencedor
-    const winner = prompt(`Confronto: ${competitor1.name} vs ${competitor2.name}\n\nDigite:\n1 - ${competitor1.name} venceu\n2 - ${competitor2.name} venceu\n3 - Empate`)
-    
-    if (!winner || !['1', '2', '3'].includes(winner)) {
-      showToast('Confronto cancelado', 'info')
-      return
-    }
+    setPendingMatch({ competitor1, competitor2, competitor1Id, competitor2Id })
+    setIsMatchModalVisible(true)
+  }
+
+  const handleMatchResult = (result) => {
+    if (!pendingMatch) return
+
+    const { competitor1, competitor2, competitor1Id, competitor2Id } = pendingMatch
 
     const newMatch = {
       id: generateId(),
@@ -52,7 +56,7 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
       competitor2: competitor2Id,
       competitor1Name: competitor1.name,
       competitor2Name: competitor2.name,
-      result: winner, // 1, 2 ou 3 (empate)
+      result: result, // 1, 2 ou 3 (empate)
       date: new Date().toISOString(),
       round: data.matches.length + 1
     }
@@ -63,16 +67,16 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
         return {
           ...competitor,
           matches: competitor.matches + 1,
-          wins: winner === '1' ? competitor.wins + 1 : competitor.wins,
-          losses: winner === '2' ? competitor.losses + 1 : competitor.losses
+          wins: result === '1' ? competitor.wins + 1 : competitor.wins,
+          losses: result === '2' ? competitor.losses + 1 : competitor.losses
         }
       }
       if (competitor.id === competitor2Id) {
         return {
           ...competitor,
           matches: competitor.matches + 1,
-          wins: winner === '2' ? competitor.wins + 1 : competitor.wins,
-          losses: winner === '1' ? competitor.losses + 1 : competitor.losses
+          wins: result === '2' ? competitor.wins + 1 : competitor.wins,
+          losses: result === '1' ? competitor.losses + 1 : competitor.losses
         }
       }
       return competitor
@@ -85,7 +89,15 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
     })
 
     setSelectedCompetitors([])
+    setIsMatchModalVisible(false)
+    setPendingMatch(null)
     showToast(`Confronto registrado: ${newMatch.competitor1Name} vs ${newMatch.competitor2Name}`, 'success')
+  }
+
+  const handleModalCancel = () => {
+    setIsMatchModalVisible(false)
+    setPendingMatch(null)
+    showToast('Confronto cancelado', 'info')
   }
 
   // Adicionar novo competidor
@@ -146,6 +158,55 @@ function ClassificationMode({ data, onUpdateData, onBackToHome }) {
     <div className="classification-mode">
       <ToastComponent />
       
+      {/* Modal para resultado do confronto */}
+      <Modal
+        title="Resultado do Confronto"
+        open={isMatchModalVisible}
+        onCancel={handleModalCancel}
+        footer={null}
+        centered
+        width={500}
+      >
+        {pendingMatch && (
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>
+              {pendingMatch.competitor1.name} <span style={{ color: '#666' }}>VS</span> {pendingMatch.competitor2.name}
+            </h3>
+            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <Button 
+                type="primary" 
+                size="large" 
+                block
+                onClick={() => handleMatchResult('1')}
+                style={{ height: 'auto', padding: '12px 24px' }}
+              >
+                <Trophy size={18} style={{ marginRight: '8px' }} />
+                {pendingMatch.competitor1.name} venceu
+              </Button>
+              <Button 
+                type="primary" 
+                size="large" 
+                block
+                onClick={() => handleMatchResult('2')}
+                style={{ height: 'auto', padding: '12px 24px' }}
+              >
+                <Trophy size={18} style={{ marginRight: '8px' }} />
+                {pendingMatch.competitor2.name} venceu
+              </Button>
+              <Button 
+                size="large" 
+                block
+                onClick={() => handleMatchResult('3')}
+                style={{ height: 'auto', padding: '12px 24px' }}
+              >
+                <Medal size={18} style={{ marginRight: '8px' }} />
+                Empate
+              </Button>
+            </Space>
+          </div>
+        )}
+      </Modal>
+
       {/* Header */}
       <div className="header">
         <button onClick={onBackToHome} className="back-button">
