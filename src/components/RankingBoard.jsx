@@ -30,9 +30,12 @@ function RankingBoard({ data, onUpdateData, onBackToHome }) {
   const [tempDescription, setTempDescription] = useState(data?.description || 'Descrição do ranking')
   const [activeId, setActiveId] = useState(null)
   const { showToast, ToastComponent } = useToast()
-
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -181,10 +184,9 @@ function RankingBoard({ data, onUpdateData, onBackToHome }) {
                 ))}
               </div>
             </SortableContext>
-            
-            <DragOverlay>
+              <DragOverlay>
               {activeId ? (
-                <div className="candidate-item drag-overlay">
+                <div className="candidate-item drag-overlay" style={{ cursor: 'grabbing' }}>
                   {(() => {
                     const candidate = data.candidates.find(c => c.id === activeId)
                     const index = data.candidates.findIndex(c => c.id === activeId)

@@ -68,8 +68,7 @@ function SortableItem({
     setTempName(candidate.name);
     setTempDescription(candidate.description);
     onStopEdit();
-  };
-  return (
+  };  return (
     <div
       ref={setNodeRef}
       style={style}
@@ -131,8 +130,8 @@ function SortableItem({
               icon={<MdDelete size={16} />}
             />
           </>
-        )}
-        {isEditing && <div className="editing-placeholder" />}        <div
+        )}        {isEditing && <div className="editing-placeholder" />}
+        <div
           {...attributes}
           {...listeners}
           className="drag-handle"

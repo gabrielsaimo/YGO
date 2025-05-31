@@ -3,8 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 body {
@@ -29,7 +27,6 @@ body {
 /* Tela inicial */
 .home-container {
   max-width: 600px;
-  width: 100%;
   text-align: center;
   padding: 40px;
   background: rgba(255, 255, 255, 0.95);
@@ -319,7 +316,7 @@ body {
   border-left: 4px solid #e0e0e0;
 }
 
-.candidate-item:hover {
+.candidate-item:hover:not(.dragging) {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
@@ -484,6 +481,7 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
+  pointer-events: auto; /* Permite interação com os botões */
 }
 
 .action-btn {
@@ -496,6 +494,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  pointer-events: auto; /* Garante que os botões sejam clicáveis */
 }
 
 .edit-btn {
@@ -528,6 +527,8 @@ body {
   cursor: grab;
   border-radius: 8px;
   transition: all 0.3s ease;
+  flex-shrink: 0; /* Evita que o handle encolha */
+  touch-action: none; /* Melhor suporte touch */
 }
 
 .drag-handle:hover {
@@ -537,6 +538,8 @@ body {
 
 .drag-handle:active {
   cursor: grabbing;
+  background: #e0e0e0;
+  transform: scale(0.95);
 }
 
 /* Toast notifications */
