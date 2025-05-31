@@ -1,0 +1,24 @@
+{
+  "title": "Teste de Importação",
+  "description": "Ranking de teste para verificar correções",
+  "candidates": [
+    {
+      "id": "1",
+      "name": "Candidato 1",
+      "description": "Primeiro candidato",
+      "score": 100
+    },
+    {
+      "id": "2", 
+      "name": "Candidato 2",
+      "description": "Segundo candidato",
+      "score": 95
+    },
+    {
+      "id": "3",
+      "name": "Candidato 3", 
+      "description": "Terceiro candidato",
+      "score": 90
+    }
+  ]
+}

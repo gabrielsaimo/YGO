@@ -1,0 +1,55 @@
+{
+  "title": "Top 10 Melhores Linguagens de Programação 2025",
+  "description": "Ranking das linguagens mais populares e demandadas no mercado",
+  "candidates": [
+    {
+      "id": "1",
+      "name": "JavaScript",
+      "description": "Linguagem versátil para web, mobile e backend. Ecossistema rico com frameworks como React, Vue e Node.js",
+      "score": 98
+    },
+    {
+      "id": "2", 
+      "name": "Python",
+      "description": "Linguagem simples e poderosa, ideal para IA, ciência de dados, web development e automação",
+      "score": 96
+    },
+    {
+      "id": "3",
+      "name": "TypeScript",
+      "description": "JavaScript com tipagem estática, oferecendo maior segurança e produtividade em projetos grandes",
+      "score": 94
+    },
+    {
+      "id": "4",
+      "name": "Rust",
+      "description": "Linguagem de sistemas com foco em performance e segurança de memória",
+      "score": 90
+    },
+    {
+      "id": "5",
+      "name": "Go",
+      "description": "Linguagem do Google, excelente para microserviços, APIs e aplicações distribuídas",
+      "score": 88
+    },
+    {
+      "id": "6",
+      "name": "Java",
+      "description": "Linguagem robusta e madura, amplamente usada em enterprise e Android development",
+      "score": 85
+    },
+    {
+      "id": "7",
+      "name": "C#",
+      "description": "Linguagem da Microsoft, poderosa para desenvolvimento Windows, web e jogos com Unity",
+      "score": 82
+    },
+    {
+      "id": "8",
+      "name": "Swift",
+      "description": "Linguagem oficial da Apple para desenvolvimento iOS e macOS",
+      "score": 78
+    }
+  ],
+  "createdAt": "2025-05-30T15:30:00.000Z"
+}

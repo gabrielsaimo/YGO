@@ -1,0 +1,33 @@
+{
+  "title": "Teste Rápido - Linguagens",
+  "description": "Teste do sistema classificatório",
+  "competitors": [
+    {
+      "id": "js",
+      "name": "JavaScript",
+      "wins": 1,
+      "losses": 0,
+      "matches": 1
+    },
+    {
+      "id": "py", 
+      "name": "Python",
+      "wins": 0,
+      "losses": 1,
+      "matches": 1
+    }
+  ],
+  "matches": [
+    {
+      "id": "match1",
+      "competitor1": "js",
+      "competitor2": "py", 
+      "competitor1Name": "JavaScript",
+      "competitor2Name": "Python",
+      "result": "1",
+      "date": "2025-05-30T15:30:00.000Z",
+      "round": 1
+    }
+  ],
+  "createdAt": "2025-05-30T15:00:00.000Z"
+}
